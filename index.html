@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#05070d" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>Kickflip</title>
+<meta name="description" content="Hop parked cars on cold-gas thrusters, kickflip over them, launch off a vert ramp and retro-burn the landing. Free browser game, made with Claude by @ertuozdenli." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kickflip" />
+<meta property="og:description" content="Hop parked cars on thrusters, kickflip over them, launch off a vert ramp. Free in your browser. Made with Claude by @ertuozdenli." />
+<meta property="og:url" content="https://ertuozdenli.github.io/kickflip/" />
+<meta property="og:image" content="https://ertuozdenli.github.io/kickflip/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@ertuozdenli" />
+<meta name="twitter:title" content="Kickflip" />
+<meta name="twitter:description" content="Hop parked cars on thrusters, kickflip over them, launch off a vert ramp. Free in your browser." />
+<meta name="twitter:image" content="https://ertuozdenli.github.io/kickflip/og.png" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305070d'/%3E%3Cpath d='M6 20 L14 12 L26 14 L24 19 Z' fill='%23eef1f5'/%3E%3Crect x='6' y='22' width='20' height='2' fill='%23ff2135'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-C6emmlOZ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DJ0epZrl.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="c"></canvas>
+
+  <div id="boot" class="boot">
+    <div class="logo"><span class="l1">KICK</span><span class="l2">FLIP</span></div>
+    <div class="boot-bar"><i></i></div>
+  </div>
+
+  <div id="hud" class="hud" hidden>
+    <div class="hud-top">
+      <button id="btn-pause" class="icon-btn" aria-label="Pause">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>
+      </button>
+      <div class="hud-mid">
+        <div id="hud-level" class="hud-level">LEVEL 1</div>
+        <div class="prog"><i id="hud-prog"></i><b id="hud-car"></b></div>
+      </div>
+      <div class="hud-score"><b id="hud-score">0</b><small id="hud-best">BEST 0</small></div>
+    </div>
+    <div class="hud-bottom">
+      <div class="fuel"><div class="fuel-bar"><i id="hud-fuel"></i></div><span>THRUST</span></div>
+      <div id="hud-speed" class="speed">0<small>KM/H</small></div>
+    </div>
+  </div>
+
+  <div id="pops" class="pops"></div>
+  <div id="cap" class="cap" hidden><div id="cap-top" class="cap-top"></div><div id="cap-mark" class="cap-mark"></div></div>
+  <div id="coach" class="coach" hidden></div>
+
+  <section id="scr-ready" class="screen ready" hidden>
+    <div id="intro" class="intro-card" hidden><h3 id="intro-title"></h3><p id="intro-text"></p></div>
+    <div class="tap-go"><span>TAP TO GO</span></div>
+  </section>
+
+  <section id="scr-home" class="screen home" hidden>
+    <div class="home-top">
+      <button id="btn-sound" class="icon-btn" aria-label="Sound">
+        <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="btn-vibe" class="icon-btn" aria-label="Vibration">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="18" rx="2"/><path d="M4 8v8M20 8v8" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="home-logo">
+      <div class="logo"><span class="l1">KICK</span><span class="l2">FLIP</span></div>
+      <p class="tag">Thruster stunts. Land it wheels down.</p>
+    </div>
+    <div class="home-actions">
+      <button id="btn-play" class="btn btn-red btn-xl"><span>PLAY</span><small id="play-level">LEVEL 1</small></button>
+      <button id="btn-levels" class="btn btn-dark">LEVELS</button>
+      <p class="controls-hint touch"><b>TAP</b> jump · <b>SWIPE</b> flip · <b>HOLD</b> burn</p>
+      <p class="controls-hint mouse"><b>CLICK / SPACE</b> jump · <b>DRAG / ARROWS</b> flip · <b>HOLD</b> burn</p>
+      <footer class="credit">
+        <span>Made with Claude by <b>ertuozdenli</b></span>
+        <a href="https://x.com/ertuozdenli" target="_blank" rel="noopener" aria-label="@ertuozdenli on X">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78zm-1.08 16.17h1.7L7.4 4.74H5.58z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/ertuozdenli" target="_blank" rel="noopener" aria-label="ertuozdenli on LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.83v1.54h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21h-4z"/></svg>
+        </a>
+      </footer>
+    </div>
+  </section>
+
+  <section id="scr-levels" class="screen levels" hidden>
+    <header class="levels-head">
+      <button id="btn-levels-back" class="icon-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <h2>LEVELS</h2>
+      <span class="stars-total" id="stars-total"></span>
+    </header>
+    <div id="level-grid" class="level-grid"></div>
+  </section>
+
+  <section id="scr-crash" class="screen panel-screen" hidden>
+    <div class="panel">
+      <h2 class="panel-title red">WRECKED</h2>
+      <p id="crash-reason" class="panel-sub"></p>
+      <div class="panel-score"><small>SCORE</small><b id="crash-score">0</b></div>
+      <button id="btn-retry" class="btn btn-red btn-xl"><span>RETRY</span></button>
+      <button id="btn-crash-home" class="btn btn-ghost">HOME</button>
+    </div>
+  </section>
+
+  <section id="scr-win" class="screen panel-screen" hidden>
+    <div class="panel">
+      <h2 class="panel-title">LEVEL CLEAR</h2>
+      <div id="win-stars" class="win-stars"><i></i><i></i><i></i></div>
+      <div class="panel-score"><small>SCORE</small><b id="win-score">0</b><small id="win-best"></small></div>
+      <div id="win-stats" class="win-stats"></div>
+      <button id="btn-next" class="btn btn-red btn-xl"><span>NEXT</span><small id="next-level"></small></button>
+      <div class="row-btns">
+        <button id="btn-win-retry" class="btn btn-dark">RETRY</button>
+        <button id="btn-win-home" class="btn btn-ghost">HOME</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="scr-pause" class="screen panel-screen" hidden>
+    <div class="panel">
+      <h2 class="panel-title">PAUSED</h2>
+      <button id="btn-resume" class="btn btn-red btn-xl"><span>RESUME</span></button>
+      <div class="row-btns">
+        <button id="btn-restart" class="btn btn-dark">RESTART</button>
+        <button id="btn-pause-home" class="btn btn-ghost">HOME</button>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
